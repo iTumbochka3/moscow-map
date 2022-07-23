@@ -1,26 +1,54 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="main-container">
+    <div class="chart-div">
+      <button class='custom-btn' @click='generateMarks'>Генерация координат</button>
+      <PieChartComponent @chooseDistrict='chooseDistrict' />
+    </div>
+    <MapComponent :marks='marks' />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MapComponent from './components/MapComponent.vue';
+import PieChartComponent from './components/PieChartComponent.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MapComponent,
+    PieChartComponent
+  },
+  data() {
+    return {
+      marks: [],
+    }
+  },
+  mounted() {
+    this.generateMarks();
+  },
+  methods: {
+    generateMarks() {
+      this.marks = Array.from({ length: 100 }, () => Math.floor(Math.random() * 100));
+    },
+    chooseDistrict() {
+
+    },
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.custom-btn {}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 8px;
 }
 </style>
