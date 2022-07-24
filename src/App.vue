@@ -4,7 +4,7 @@
       <button class='custom-btn' @click='generateMarks'>Генерация координат</button>
       <PieChartComponent @chooseDistrict='chooseDistrict' />
     </div>
-    <MapComponent :marks='marks' />
+    <MapComponent :markers='marks' />
   </div>
 </template>
 

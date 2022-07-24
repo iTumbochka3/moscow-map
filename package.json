@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.26",
+    "@fawmi/vue-google-maps": "^0.9.72",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },
