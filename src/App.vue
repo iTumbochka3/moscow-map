@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <div class="chart-div">
+    <div class="toolbar">
       <button class='custom-btn' @click='generateMarks'>Генерация координат</button>
       <PieChartComponent @chooseDistrict='chooseDistrict' />
     </div>
@@ -38,17 +38,19 @@ export default {
 </script>
 
 <style scoped>
-.custom-btn {}
-
 .main-container {
   display: flex;
   flex-direction: column;
 }
 
-.chart-div {
+.toolbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 8px;
+}
+
+.custom-btn {
+  height: 30px;
 }
 </style>

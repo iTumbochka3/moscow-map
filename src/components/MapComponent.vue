@@ -7,9 +7,7 @@
 <script>
 export default {
   name: 'MapComponent',
-  props: {
-    marks: []
-  },
+  props: ['marks'],
 }
 </script>
 
