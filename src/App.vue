@@ -30,11 +30,21 @@ export default {
   methods: {
     generateMarkers() {
       this.$store.dispatch('clearActiveZones');
-      this.$store.dispatch('generateMarkers', Array.from({ length: 5 }, () => {
-        const lng = this.getRandomInRange(37.37, 37.84);
-        const lat = this.getRandomInRange(55.57, 55.9);
+      this.$store.dispatch('generateMarkers', Array.from({ length: 100 }, () => {
+        let lng = null;
+        let lat = null;
+        let district = '';
+        while (!district) {
+          lng = this.getRandomInRange(37.18, 37.94);
+          lat = this.getRandomInRange(55.47, 56);
+          this.polygons.forEach(element => {
+            if (this.getDistrictCode(lat, lng, JSON.parse(JSON.stringify(element.paths)))) {
+              district = element.code
+            }
+          });
+        }
         return {
-          district: this.getDistrictCode(lat, lng),
+          district: district,
           position: { lat: lat, lng: lng }
         };
       }));
@@ -43,26 +53,33 @@ export default {
     getRandomInRange(from, to) {
       return +(Math.random() * (to - from) + from).toFixed(6);
     },
+    
+    getDistrictCode(x, y, polygon) {
+      let n = polygon.length;
+      let count = 0;
 
-    getDistrictCode(lat, lng,) {
-      let result = '';
-
-      this.polygons.forEach(item => {
-        const polygon = JSON.parse(JSON.stringify(item.paths));
-        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-          let lat_i = polygon[i].lat;
-          let lng_i = polygon[i].lng;
-          let lat_j = polygon[j].lat;
-          let lng_j = polygon[j].lng;
-
-          const intersect = ((lng_i > lng) != (lng_j > lng))
-            && (lat < (lat_j - lat_i) * (lng - lng_i) / (lng_j - lng_i) + lat_i);
-          result = intersect ? item.code : result;
+      for (let i = 0; i < n - 1; ++i) {
+        let side = {
+          a: {
+            x: polygon[i].lat,
+            y: polygon[i].lng
+          },
+          b: {
+            x: polygon[i + 1].lat,
+            y: polygon[i + 1].lng
+          }
         }
-      });
 
-      return result;
-    },
+        let x1 = side.a.x;
+        let x2 = side.b.x;
+        let y1 = side.a.y;
+        let y2 = side.b.y;
+        if (y < y1 != y < y2 && x < (x2 - x1) * (y - y1) / (y2 - y1) + x1) {
+          count += 1;
+        }
+      }
+      return count % 2 == 0 ? false : true;
+    }
   }
 }
 </script>

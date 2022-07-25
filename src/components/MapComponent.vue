@@ -1,6 +1,6 @@
 <template>
   <GMapMap class="map-div" :center="defaultCenter" :zoom="defaultZoom" map-type-id="terrain">
-    <GMapMarker v-for="(m, index) in markers" :key="m + index" :position="showMarker(m)" />
+    <GMapMarker v-for="(m, index) in markers" :key="m + index" :position="showMarker(m)" :clickable="true" />
     <GMapPolygon v-for="p in polygons" :key="p.type" :paths="p.paths" :options="p.options" />
   </GMapMap>
 </template>
@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       defaultCenter: { lat: 55.751244, lng: 37.618423 },
-      defaultZoom: 10,
+      defaultZoom: 9,
     }
   },
   computed: {
@@ -32,7 +32,7 @@ export default {
         return null;
       }
       return marker.position;
-    }
+    },
   },
 }
 </script>
