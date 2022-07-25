@@ -5,6 +5,6 @@ import store from './store/'
 
 createApp(App).use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyCAa_JFXa6TC51S685lFTeXJ0dQPyyf_q4',
+        key: process.env.VUE_APP_GOOGLE_API_KEY,
     },
 }).use(store).mount('#app')
