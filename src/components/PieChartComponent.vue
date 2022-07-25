@@ -55,9 +55,10 @@ export default {
           color: am4core.color(value.color)
         }
       });
-    },
 
-    chooseDistrict() {
+      series.slices.template.events.on("hit", (ev) => {
+        this.$store.dispatch('toggleActiveZones', ev.target.dataItem.dataContext.code);
+      });
     },
   },
 }

@@ -48,6 +48,7 @@ export default createStore({
                 color: '#DCF4D2',
             },
         },
+        activeZones: [],
     },
     getters: {
         getMarkers: state => {
@@ -59,6 +60,9 @@ export default createStore({
         getDistrictsInfo: state => {
             return state.districts;
         },
+        getActiveZones: state => {
+            return state.activeZones;
+        }
     },
     mutations: {
         setMarkers(state, data) {
@@ -66,6 +70,15 @@ export default createStore({
         },
         setPolygons(state, data) {
             state.polygons = data;
+        },
+        addActiveZone(state, data) {
+            state.activeZones.push(data);
+        },
+        removeActiveZone(state, data) {
+            state.activeZones = state.activeZones.filter((item) => item !== data);
+        },
+        clearActiveZones(state) {
+            state.activeZones = [];
         },
     },
     actions: {
@@ -95,5 +108,15 @@ export default createStore({
             });
             commit('setPolygons', polygons);
         },
+        toggleActiveZones({ commit }, code) {
+            if (this.state.activeZones.includes(code)) {
+                commit('removeActiveZone', code);
+            } else {
+                commit('addActiveZone', code);
+            }
+        },
+        clearActiveZones({ commit }) {
+            commit('clearActiveZones');
+        }
     },
 });

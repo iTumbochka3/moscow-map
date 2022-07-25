@@ -29,7 +29,8 @@ export default {
   },
   methods: {
     generateMarkers() {
-      this.$store.dispatch('generateMarkers', Array.from({ length: 100 }, () => {
+      this.$store.dispatch('clearActiveZones');
+      this.$store.dispatch('generateMarkers', Array.from({ length: 5 }, () => {
         const lng = this.getRandomInRange(37.37, 37.84);
         const lat = this.getRandomInRange(55.57, 55.9);
         return {
