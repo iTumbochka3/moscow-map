@@ -1,10 +1,10 @@
 <template>
   <div class="main-container">
     <div class="toolbar">
-      <button class='custom-btn' @click='generateMarks'>Генерация координат</button>
+      <button class='custom-btn' @click='generateMarkers'>Генерация координат</button>
       <PieChartComponent />
     </div>
-    <MapComponent :markers='markers' />
+    <MapComponent />
   </div>
 </template>
 
@@ -18,21 +18,17 @@ export default {
     MapComponent,
     PieChartComponent
   },
-  data() {
-    return {
-      markers: [],
-    }
-  },
   mounted() {
+    this.$store.dispatch('drawPolygons');
     this.generateMarkers();
   },
   methods: {
     generateMarkers() {
-      this.markers = Array.from({ length: 100 }, () => {
+      this.$store.dispatch('generateMarkers', Array.from({ length: 100 }, () => {
         const lng = this.getRandomInRange(37.37, 37.84);
         const lat = this.getRandomInRange(55.57, 55.9);
         return { position: { lat: lat, lng: lng } };
-      });
+      }));
     },
     getRandomInRange(from, to) {
       return +(Math.random() * (to - from) + from).toFixed(6);
@@ -51,6 +47,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin: 8px;
 }
 
