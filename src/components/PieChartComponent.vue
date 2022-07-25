@@ -24,6 +24,7 @@ export default {
   },
   watch: {
     markers() {
+      this.chartData.forEach(chart => { chart.markers = 0; });
       this.markers.forEach(marker => {
         this.chartData.forEach(chart => {
           if (marker.district === chart.code) {
