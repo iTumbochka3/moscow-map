@@ -38,7 +38,7 @@ export default createStore({
                 });
                 polygons.push(...paths.map((path, index) => {
                     return {
-                        name: item[0],
+                        code: item[0],
                         type: item[0] + '_' + index,
                         paths: path,
                     }

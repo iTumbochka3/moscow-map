@@ -18,6 +18,11 @@ export default {
     MapComponent,
     PieChartComponent
   },
+  computed: {
+    polygons() {
+      return this.$store.getters.getPolygons;
+    },
+  },
   mounted() {
     this.$store.dispatch('drawPolygons');
     this.generateMarkers();
@@ -27,11 +32,35 @@ export default {
       this.$store.dispatch('generateMarkers', Array.from({ length: 100 }, () => {
         const lng = this.getRandomInRange(37.37, 37.84);
         const lat = this.getRandomInRange(55.57, 55.9);
-        return { position: { lat: lat, lng: lng } };
+        return {
+          district: this.getDistrictCode(lat, lng),
+          position: { lat: lat, lng: lng }
+        };
       }));
     },
+
     getRandomInRange(from, to) {
       return +(Math.random() * (to - from) + from).toFixed(6);
+    },
+
+    getDistrictCode(lat, lng,) {
+      let result = '';
+
+      this.polygons.forEach(item => {
+        const polygon = JSON.parse(JSON.stringify(item.paths));
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+          let lat_i = polygon[i].lat;
+          let lng_i = polygon[i].lng;
+          let lat_j = polygon[j].lat;
+          let lng_j = polygon[j].lng;
+
+          const intersect = ((lng_i > lng) != (lng_j > lng))
+            && (lat < (lat_j - lat_i) * (lng - lng_i) / (lng_j - lng_i) + lat_i);
+          result = intersect ? item.code : result;
+        }
+      });
+
+      return result;
     },
   }
 }
