@@ -657,7 +657,7 @@
             ]
         }
     },
-    "EasternAdministrativeOkr": {
+    "North-EasternAdministrativeOkr": {
         "type": "Feature",
         "properties": {
             "GID_2": "RUS.43.3_1",

@@ -1,6 +1,6 @@
 <template>
   <GMapMap class="map-div" :center="defaultCenter" :zoom="defaultZoom" map-type-id="terrain">
-    <GMapMarker :key="m + index" v-for="(m, index) in markers" :position="m.position" @click="openInfoWindow(m)" />
+    <GMapMarker v-for="(m, index) in markers" :key="m + index" :position="m.position" @click="openInfoWindow(m)" />
     <GMapPolygon v-for="p in polygons" :key="p.type" :paths="p.paths" />
   </GMapMap>
 </template>
