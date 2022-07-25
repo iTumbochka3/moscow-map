@@ -2,9 +2,9 @@
   <div class="main-container">
     <div class="toolbar">
       <button class='custom-btn' @click='generateMarks'>Генерация координат</button>
-      <PieChartComponent @chooseDistrict='chooseDistrict' />
+      <PieChartComponent />
     </div>
-    <MapComponent :markers='marks' />
+    <MapComponent :markers='markers' />
   </div>
 </template>
 
@@ -20,18 +20,22 @@ export default {
   },
   data() {
     return {
-      marks: [],
+      markers: [],
     }
   },
   mounted() {
-    this.generateMarks();
+    this.generateMarkers();
   },
   methods: {
-    generateMarks() {
-      this.marks = Array.from({ length: 100 }, () => Math.floor(Math.random() * 100));
+    generateMarkers() {
+      this.markers = Array.from({ length: 100 }, () => {
+        const lng = this.getRandomInRange(37.37, 37.84);
+        const lat = this.getRandomInRange(55.57, 55.9);
+        return { position: { lat: lat, lng: lng } };
+      });
     },
-    chooseDistrict() {
-
+    getRandomInRange(from, to) {
+      return +(Math.random() * (to - from) + from).toFixed(6);
     },
   }
 }
