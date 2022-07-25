@@ -1,7 +1,7 @@
 <template>
   <GMapMap class="map-div" :center="defaultCenter" :zoom="defaultZoom" map-type-id="terrain">
     <GMapMarker v-for="(m, index) in markers" :key="m + index" :position="m.position" />
-    <GMapPolygon v-for="p in polygons" :key="p.type" :paths="p.paths" />
+    <GMapPolygon v-for="p in polygons" :key="p.type" :paths="p.paths" :options="p.options" />
   </GMapMap>
 </template>
 

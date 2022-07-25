@@ -11,54 +11,15 @@ export default {
   data() {
     return {
       chart: {},
-      chartData: [
-        {
-          "district": "Центральный",
-          "code": "CentralAdministrativeOkrug",
-          "markers": 0
-        }, {
-          "district": "Северный",
-          "code": "NorthernAdministrativeOkrug",
-          "markers": 0
-        }, {
-          "district": "Северо-Восточный",
-          "code": "North-EasternAdministrativeOkr",
-          "markers": 0
-        }, {
-          "district": "Восточный",
-          "code": "EasternAdministrativeOkrug",
-          "markers": 0
-        }, {
-          "district": "Юго-Восточный",
-          "code": "South-EasternAdministrativeOkr",
-          "markers": 0
-        }, {
-          "district": "Южный",
-          "code": "SouthernAdministrativeOkrug",
-          "markers": 0
-        }, {
-          "district": "Юго-Западный",
-          "code": "South-WesternAdministrativeOkr",
-          "markers": 0
-        }, {
-          "district": "Западный",
-          "code": "WesternAdministrativeOkrug",
-          "markers": 0
-        }, {
-          "district": "Северо-Западный",
-          "code": "North-WesternAdministrativeOkr",
-          "markers": 0
-        }, {
-          "district": "Зеленоградский",
-          "code": "ZelenogradskyAdministrativeOkr",
-          "markers": 0
-        },
-      ],
+      chartData: [],
     }
   },
   computed: {
     markers() {
       return this.$store.getters.getMarkers;
+    },
+    districtsInfo() {
+      return this.$store.getters.getDistrictsInfo;
     },
   },
   watch: {
@@ -83,6 +44,17 @@ export default {
       const series = this.chart.series.push(new am4charts.PieSeries());
       series.dataFields.value = "markers";
       series.dataFields.category = "district";
+      series.slices.template.stroke = am4core.color("black");
+      series.slices.template.propertyFields.fill = "color";
+
+      this.chartData = Object.entries(this.districtsInfo).map(([key, value]) => {
+        return {
+          district: value.name,
+          code: key,
+          markers: 0,
+          color: am4core.color(value.color)
+        }
+      });
     },
 
     chooseDistrict() {
