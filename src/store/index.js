@@ -87,25 +87,24 @@ export default createStore({
         },
         drawPolygons({ commit }) {
             const polygons = [];
-            Object.entries(districtsJsonFile).filter((item) => item[0] !== 'default').forEach((item) => {
-                const paths = [];
-                item[1].geometry.coordinates.forEach(el1 => {
-                    el1.forEach(el2 => {
-                        paths.push(el2.map((c) => { return { lat: c[1], lng: c[0] } }));
+            Object.entries(districtsJsonFile)
+                .filter(item => item[0] !== 'default')
+                .forEach(district => {
+                    const districtCode = district[0];
+                    district[1].geometry.coordinates.forEach(item => {
+                        item.forEach((districtPath, index) => {
+                            polygons.push({
+                                code: districtCode,
+                                type: districtCode + '_' + index,
+                                paths: districtPath.map((coordinate) => { return { lat: coordinate[1], lng: coordinate[0] } }),
+                                options: {
+                                    fillColor: this.state.districts[districtCode].color,
+                                    fillOpacity: 0.65
+                                },
+                            });
+                        });
                     });
-                });
-                polygons.push(...paths.map((path, index) => {
-                    return {
-                        code: item[0],
-                        type: item[0] + '_' + index,
-                        paths: path,
-                        options: { 
-                            fillColor: this.state.districts[item[0]].color,
-                            fillOpacity: 0.65
-                        },
-                    }
-                }));
-            });
+                })
             commit('setPolygons', polygons);
         },
         toggleActiveZones({ commit }, code) {

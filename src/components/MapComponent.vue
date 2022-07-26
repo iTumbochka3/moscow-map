@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       defaultCenter: { lat: 55.751244, lng: 37.618423 },
-      defaultZoom: 9,
+      defaultZoom: 10,
     }
   },
   computed: {
