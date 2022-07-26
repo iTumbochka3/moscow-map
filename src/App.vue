@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { toRaw } from 'vue';
 import MapComponent from './components/MapComponent.vue';
 import PieChartComponent from './components/PieChartComponent.vue';
 
@@ -31,15 +32,13 @@ export default {
     generateMarkers() {
       this.$store.dispatch('clearActiveZones');
       this.$store.dispatch('generateMarkers', Array.from({ length: 100 }, () => {
-        let lng = null;
-        let lat = null;
-        let district = '';
+        let lng, lat, district;
         while (!district) {
           lng = this.getRandomInRange(37.18, 37.94);
           lat = this.getRandomInRange(55.47, 56);
-          this.polygons.forEach(element => {
-            if (this.getDistrictCode(lat, lng, JSON.parse(JSON.stringify(element.paths)))) {
-              district = element.code
+          this.polygons.forEach(polygon => {
+            if (this.getDistrictCode(lat, lng, toRaw(polygon.paths))) {
+              district = polygon.code
             }
           });
         }
